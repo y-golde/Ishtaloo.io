@@ -29,7 +29,7 @@ services:
         networks: 
             - routertest
         volumes: 
-            - './data:/data/db'
+            - 'data:/data/db'
 networks: 
     routertest:
         driver: bridge
