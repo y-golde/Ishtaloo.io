@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"go.mongodb.org/mongo-driver/bson"
-	"ishtaloo.io/API/index"
+	rootController "ishtaloo.io/API"
 	"ishtaloo.io/DB"
 	"ishtaloo.io/DB/Collections"
 )
@@ -35,7 +35,7 @@ func main() {
 	e.Use(middleware.CORS())
 
 	// Route => handler
-	index.IndexController(e)
+	rootController.RootController(e)
 
 	e.GET("/api", func(c echo.Context) error {
 		fmt.Printf("/API/ WAS CALLED")
