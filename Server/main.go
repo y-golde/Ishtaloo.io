@@ -18,7 +18,7 @@ import (
 
 func main() {
 	DB.InitClient()
-	
+
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -40,7 +40,8 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World!\n")
 	})
 	
-	e.GET("/hello", func(c echo.Context) error {
+	e.GET("/api", func(c echo.Context) error {
+		fmt.Printf("/API/ WAS CALLED")
 		usersCollection := Collections.GetUsersCollection()
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()

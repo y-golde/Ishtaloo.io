@@ -6,7 +6,7 @@
 	let message = 'loading...';
 	
 	onMount(async () => {
-		const res = await axios.get('/')
+		const res = await axios.get('')
 			.then(res => {
 				return res.data;
 			})
