@@ -1,3 +1,4 @@
+import path from 'path'
 import { config } from 'dotenv';
 import css from 'rollup-plugin-css-only';
 import svelte from 'rollup-plugin-svelte';
@@ -10,6 +11,12 @@ import livereload from 'rollup-plugin-livereload';
 import typescript from '@rollup/plugin-typescript';
 
 const production = !process.env.ROLLUP_WATCH;
+
+const envVariables = config({
+	path : production 
+		? path.resolve(__dirname , './.env.prod')
+		: path.resolve(__dirname , './.env')
+}).parsed
 
 function serve() {
 	let server;
@@ -64,8 +71,9 @@ export default {
 		commonjs(),
 		replace({
 			globalThis: JSON.stringify({
-				...config().parsed
-			})
+				...envVariables
+			}),
+			'process.env' : production ? '"production"' : '"dev"'
 		}),
 		typescript({
 			sourceMap: !production,
