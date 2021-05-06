@@ -1,33 +1,23 @@
 <script lang="ts">
-	import axios from 'axios';
-	import { onMount } from 'svelte';
-	
 	import Headline from './Common/Headline.svelte';
+	import Game from './Components/Game/Game.svelte';
+import ThemeWrapper from './CSS/ThemeWrapper.svelte';
 
 	const headlineText = 'ishtaloo.io'
-
-	let name = 'world';
-	let message = 'loading...';
-	
-	onMount(async () => {
-		const res = await axios.get('')
-			.then(res => {
-				return res.data;
-			})
-			.catch(err => {
-				console.log(err);
-				return '';
-			})
-		message = res;
-	});
 </script>
 
 <style global lang="postcss">
   @tailwind base;
   @tailwind components;
   @tailwind utilities;
+  html {
+	  background-color: var(--background);
+  }
 </style>
 
-<Headline text={headlineText}></Headline>
-
-<h2>Message from server: {message}</h2>
+<ThemeWrapper>
+	<div class="main-wrapper">
+		<Headline text={headlineText}></Headline>
+		<Game />
+	</div>
+</ThemeWrapper>
