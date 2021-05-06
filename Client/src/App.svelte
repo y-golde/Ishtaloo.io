@@ -5,8 +5,6 @@
 	let name = 'world';
 	let message = 'loading...';
 	
-
-	// env later
 	onMount(async () => {
 		const res = await axios.get('/')
 			.then(res => {
