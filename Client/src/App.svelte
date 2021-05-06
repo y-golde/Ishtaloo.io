@@ -1,6 +1,10 @@
 <script lang="ts">
 	import axios from 'axios';
 	import { onMount } from 'svelte';
+	
+	import Headline from './Common/Headline.svelte';
+
+	const headlineText = 'ishtaloo.io'
 
 	let name = 'world';
 	let message = 'loading...';
@@ -18,6 +22,12 @@
 	});
 </script>
 
-<h1>Hello {name}!</h1>
+<style global lang="postcss">
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+</style>
+
+<Headline text={headlineText}></Headline>
 
 <h2>Message from server: {message}</h2>
