@@ -39,7 +39,7 @@ func main() {
 
 	e.GET("/api", func(c echo.Context) error {
 		fmt.Printf("/API/ WAS CALLED")
-		usersCollection := Collections.GetUsersCollection()
+		usersCollection := Collections.UsersGetCollection()
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
