@@ -1,11 +1,13 @@
+import { config } from 'dotenv';
+import css from 'rollup-plugin-css-only';
 import svelte from 'rollup-plugin-svelte';
+import replace from '@rollup/plugin-replace';
+import { terser } from 'rollup-plugin-terser';
 import commonjs from '@rollup/plugin-commonjs';
+import sveltePreprocess from 'svelte-preprocess';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
-import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
-import css from 'rollup-plugin-css-only';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -60,6 +62,11 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
+		replace({
+			globalThis: JSON.stringify({
+				...config().parsed
+			})
+		}),
 		typescript({
 			sourceMap: !production,
 			inlineSources: !production
