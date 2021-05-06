@@ -5,5 +5,6 @@ import (
 )
 
 func WordsController(e *echo.Echo) {
+	e.GET("/words", getWords)
 	e.POST("/words", postWord)
 }
