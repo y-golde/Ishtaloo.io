@@ -79,6 +79,7 @@ export default {
 			'process.env': production ? '"production"' : '"dev"',
 		}),
 		typescript({
+			rootDir: './src',
 			sourceMap: !production,
 			inlineSources: !production,
 		}),
