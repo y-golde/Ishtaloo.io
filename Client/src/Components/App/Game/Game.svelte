@@ -5,10 +5,10 @@
 
 <div class="container mx-auto">
 	<div class="grid grid-cols-3 gap-4">
-		<div class="col-span-1">
+		<div class="md:col-span-1 col-span-3">
 			<Users />
 		</div>
-		<div class="col-span-2">
+		<div class="md:col-span-2 col-span-3">
 			<GamePanel />
 		</div>
 	</div>
