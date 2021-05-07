@@ -1,25 +1,28 @@
 <script lang="ts">
-	import Keyboard from './Keyboard/Keyboard.svelte'
 	import Word from './Word/Word.svelte'
+	import Keyboard from './Keyboard/Keyboard.svelte'
+	import HangmanRow from './HangmanRow/HangmanRow.svelte'
 
 	const currentWordText = 'Current Word:'
 
 	const word = '_ _ _ _ - _ _ _ A _'
+	const disabledChars = ['A','Q','M'];
 </script>
 
 
 <div class="panel-card w-full flex flex-col">
 	<div class="text-3xl pl-4">{currentWordText}</div>
 	<Word {word}/>
+	<HangmanRow {disabledChars} />
 	<div class="container keyboard-container mx-auto">
-		<Keyboard disabledChars={['A','Q','M']}/>
+		<Keyboard {disabledChars}/>
 	</div>
 </div>
 
 <style>
 	.panel-card {
 		/* stub */
-		min-height: 600px;
+		min-height: 700px;
 
 		padding: 12px;
 
