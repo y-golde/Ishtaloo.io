@@ -20,7 +20,10 @@ func postLogin(c echo.Context) (err error) {
 	userName := entities.LoginRequest{
 		UserName: u.UserName,
 	}
-	cookie.Value, _ = createToken(userName)
+	cookie.Value, err = createToken(userName)
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, err.Error())
+	}
 	cookie.HttpOnly = true
 	c.SetCookie(cookie)
 	return c.String(http.StatusOK, "login successful")
