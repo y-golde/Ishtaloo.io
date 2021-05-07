@@ -17,10 +17,10 @@ func postLogin(c echo.Context) (err error) {
 	if err = c.Bind(u); err != nil {
 		return err
 	}
-	userName := entities.LoginRequest{
+	loginParams := entities.LoginRequest{
 		UserName: u.UserName,
 	}
-	cookie.Value, err = createToken(userName)
+	cookie.Value, err = createToken(loginParams)
 	if err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, err.Error())
 	}
@@ -29,11 +29,11 @@ func postLogin(c echo.Context) (err error) {
 	return c.String(http.StatusOK, "login successful")
 }
 
-func createToken(userName entities.LoginRequest) (string, error) {
+func createToken(loginParams entities.LoginRequest) (string, error) {
 	var err error
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
-	atClaims["user_name"] = userName.UserName
+	atClaims["user_name"] = loginParams.UserName
 	atClaims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 	token, err := at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
