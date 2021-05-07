@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"ishtaloo.io/DB/Collections"
-	entities "ishtaloo.io/ENTITIES"
+	entities "ishtaloo.io/Entities"
 )
 
 func AddWord(ctx context.Context, word entities.Word) {

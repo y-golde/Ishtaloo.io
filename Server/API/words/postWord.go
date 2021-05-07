@@ -7,7 +7,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"ishtaloo.io/DB/Scripts"
-	entities "ishtaloo.io/ENTITIES"
+	entities "ishtaloo.io/Entities"
 )
 
 func postWord(c echo.Context) (err error) {
