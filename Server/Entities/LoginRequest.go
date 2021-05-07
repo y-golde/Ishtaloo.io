@@ -1,6 +1,6 @@
 package entities
 
 type LoginRequest struct {
-	UserName string `json:"userName" bson:"userName"`
-	UserId   string `json:"userId" bson:"userId"`
+	UserName string `json:"userName" bson:"user_name"`
+	UserId   string `json:"userId" bson:"user_id"`
 }
