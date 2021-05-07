@@ -3,6 +3,6 @@
 
 </script>
 
-<div class="text-5xl text-center p-2">
+<div class="text-5xl text-center p-2 mt-4">
     {word}
 </div>

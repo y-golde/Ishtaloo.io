@@ -12,7 +12,7 @@
 	<div class="text-3xl pl-4">{currentWordText}</div>
 	<Word {word}/>
 	<div class="container keyboard-container mx-auto">
-		<Keyboard />
+		<Keyboard disabledChars={['A','Q','M']}/>
 	</div>
 </div>
 
