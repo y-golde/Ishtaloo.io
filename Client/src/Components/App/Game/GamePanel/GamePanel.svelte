@@ -1,27 +1,26 @@
 <script lang="ts">
-	import Word from './Word/Word.svelte'
-	import Keyboard from './Keyboard/Keyboard.svelte'
-	import HangmanRow from './HangmanRow/HangmanRow.svelte'
-	import UseGamePanel from './useGamePanel'
+	import Word from './Word/Word.svelte';
+	import Keyboard from './Keyboard/Keyboard.svelte';
+	import HangmanRow from './HangmanRow/HangmanRow.svelte';
+	import UseGamePanel from './useGamePanel';
 
-	const currentWordText = 'Current Word:'
+	const currentWordText = 'Current Word:';
 
 	const { getCorrectCharsByWord } = UseGamePanel();
 
 	const word = '_ _ P _ - _ _ _ A _';
-	const correctGuesses =  getCorrectCharsByWord(word);
-	const wrongGuesses = ['Q','M'];
+	const correctGuesses = getCorrectCharsByWord(word);
+	const wrongGuesses = ['Q', 'M'];
 
 	const disabledChars = correctGuesses.concat(wrongGuesses);
 </script>
 
-
 <div class="panel-card w-full flex flex-col">
 	<div class="text-3xl pl-4">{currentWordText}</div>
-	<Word {word}/>
-	<HangmanRow {wrongGuesses}/>
+	<Word word="{word}" />
+	<HangmanRow wrongGuesses="{wrongGuesses}" />
 	<div class="keyboard-container mx-auto">
-		<Keyboard {disabledChars}/>
+		<Keyboard disabledChars="{disabledChars}" />
 	</div>
 </div>
 
