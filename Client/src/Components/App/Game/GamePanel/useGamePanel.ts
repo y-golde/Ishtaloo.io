@@ -15,7 +15,7 @@ const UseGamePanel = () => {
 		// this is a stub that will be changed when SSE will be implemented 
 		return {
 			word: '_ _ P _ - _ _ _ A _',
-			wrongGuesses: ['Q', 'M']
+			wrongGuesses: ['Q', 'M', 'Z']
 		}
 	}
 

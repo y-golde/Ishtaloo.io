@@ -5,7 +5,11 @@
 
 	export let disabledChars: string[];
 
-	const { isDisabled } = UseKeyboard(disabledChars);
+	let { isDisabled } = UseKeyboard(disabledChars);
+
+	$: {
+		isDisabled = UseKeyboard(disabledChars).isDisabled;
+	}
 </script>
 
 <div class="flex flex-wrap gap-4 text-2xl justify-center keyboard">
