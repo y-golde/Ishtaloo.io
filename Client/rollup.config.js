@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'path';
 import { config } from 'dotenv';
 import css from 'rollup-plugin-css-only';
 import svelte from 'rollup-plugin-svelte';
@@ -13,10 +13,8 @@ import typescript from '@rollup/plugin-typescript';
 const production = !process.env.ROLLUP_WATCH;
 
 const envVariables = config({
-	path : production 
-		? path.resolve(__dirname , './.env.prod')
-		: path.resolve(__dirname , './.env')
-}).parsed
+	path: production ? path.resolve(__dirname, './.env.prod') : path.resolve(__dirname, './.env'),
+}).parsed;
 
 function serve() {
 	let server;
@@ -30,12 +28,12 @@ function serve() {
 			if (server) return;
 			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
 				stdio: ['ignore', 'inherit', 'inherit'],
-				shell: true
+				shell: true,
 			});
 
 			process.on('SIGTERM', toExit);
 			process.on('exit', toExit);
-		}
+		},
 	};
 }
 
@@ -45,15 +43,20 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: 'public/build/bundle.js',
 	},
 	plugins: [
 		svelte({
-			preprocess: sveltePreprocess({ sourceMap: !production }),
+			preprocess: sveltePreprocess({
+				sourceMap: !production,
+				postcss: {
+					plugins: [require('tailwindcss'), require('autoprefixer')],
+				},
+			}),
 			compilerOptions: {
 				// enable run-time checks when not in production
-				dev: !production
-			}
+				dev: !production,
+			},
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
@@ -66,18 +69,19 @@ export default {
 		// https://github.com/rollup/plugins/tree/master/packages/commonjs
 		resolve({
 			browser: true,
-			dedupe: ['svelte']
+			dedupe: ['svelte'],
 		}),
 		commonjs(),
 		replace({
 			globalThis: JSON.stringify({
-				...envVariables
+				...envVariables,
 			}),
-			'process.env' : production ? '"production"' : '"dev"'
+			'process.env': production ? '"production"' : '"dev"',
 		}),
 		typescript({
+			rootDir: './src',
 			sourceMap: !production,
-			inlineSources: !production
+			inlineSources: !production,
 		}),
 
 		// In dev mode, call `npm run start` once
@@ -90,9 +94,9 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
 	],
 	watch: {
-		clearScreen: false
-	}
+		clearScreen: false,
+	},
 };
