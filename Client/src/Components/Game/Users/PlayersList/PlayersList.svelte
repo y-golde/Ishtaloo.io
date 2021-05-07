@@ -3,7 +3,7 @@
 	import type Player from 'Models/Game/Player';
 
 	import UsePlayersList from './usePlayersList';
-	import PlayerCard from './Player/PlayerCard.svelte';
+	import PlayerRow from './Player/PlayerRow.svelte';
 
 	let players: Player[] = [];
 	const { getPlayers } = UsePlayersList();
@@ -16,7 +16,7 @@
 <div class="grid grid-cols-1">
 	{#each players as player}
 		<div class="col-span-1">
-			<PlayerCard player="{player}" />
+			<PlayerRow player="{player}" />
 		</div>
 	{/each}
 </div>
