@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"time"
 
@@ -12,6 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"go.mongodb.org/mongo-driver/bson"
+	rootController "ishtaloo.io/API"
 	"ishtaloo.io/DB"
 	"ishtaloo.io/DB/Collections"
 )
@@ -35,17 +35,14 @@ func main() {
 	e.Use(middleware.CORS())
 
 	// Route => handler
-	e.GET("/", func(c echo.Context) error {
-		fmt.Printf("wowowowo");
-		return c.String(http.StatusOK, "Hello, World!\n")
-	})
-	
+	rootController.RootController(e)
+
 	e.GET("/api", func(c echo.Context) error {
 		fmt.Printf("/API/ WAS CALLED")
-		usersCollection := Collections.GetUsersCollection()
+		usersCollection := Collections.UsersGetCollection()
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
-		
+
 		cur, _ := usersCollection.Find(ctx, bson.M{})
 
 		var users []bson.M

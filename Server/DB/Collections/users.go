@@ -5,6 +5,6 @@ import (
 	"ishtaloo.io/DB"
 )
 
-func GetUsersCollection() (*mongo.Collection) {
+func UsersGetCollection() *mongo.Collection {
 	return DB.Client.Database("router-test").Collection("users")
 }
