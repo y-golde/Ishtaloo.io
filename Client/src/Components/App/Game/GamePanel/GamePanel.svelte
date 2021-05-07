@@ -2,11 +2,14 @@
 	import Word from './Word/Word.svelte'
 	import Keyboard from './Keyboard/Keyboard.svelte'
 	import HangmanRow from './HangmanRow/HangmanRow.svelte'
+	import UseGamePanel from './useGamePanel'
 
 	const currentWordText = 'Current Word:'
 
-	const word = '_ _ P _ - _ _ _ A _'
-	const correctGuesses = word.split(' ').filter(char => ['_','-'].indexOf(char) === -1);
+	const { getCorrectCharsByWord } = UseGamePanel();
+
+	const word = '_ _ P _ - _ _ _ A _';
+	const correctGuesses =  getCorrectCharsByWord(word);
 	const wrongGuesses = ['Q','M'];
 
 	const disabledChars = correctGuesses.concat(wrongGuesses);
