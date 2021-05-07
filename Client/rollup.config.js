@@ -73,6 +73,7 @@ export default {
 		}),
 		commonjs(),
 		replace({
+			preventAssignment: true,
 			globalThis: JSON.stringify({
 				...envVariables,
 			}),
