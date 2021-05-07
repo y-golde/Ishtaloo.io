@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Headline from './Common/Headline.svelte';
-	import Game from './Components/Game/Game.svelte';
+	import Headline from './Components/Common/Headline.svelte';
+	import Game from './Components/App/Game/Game.svelte';
 	import ThemeWrapper from './CSS/ThemeWrapper.svelte';
 
 	const headlineText = 'ishtaloo.io';
