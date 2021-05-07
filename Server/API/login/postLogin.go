@@ -26,7 +26,7 @@ func postLogin(c echo.Context) (err error) {
 	}
 	cookie.HttpOnly = true
 	c.SetCookie(cookie)
-	return c.String(http.StatusOK, "login successful")
+	return c.NoContent(http.StatusOK)
 }
 
 func createToken(loginParams entities.LoginRequest) (string, error) {
