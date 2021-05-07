@@ -1,7 +1,7 @@
 <script lang="ts">
-	export let word: string;
+	export let word: string = 'loading...';
 </script>
 
-<div class="text-5xl text-center p-2 my-4">
+<div class="text-6xl text-center p-2 my-4">
 	{word}
 </div>

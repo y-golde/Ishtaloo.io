@@ -1,16 +1,24 @@
 <script lang="ts">
 	export let wrongGuesses: string[];
 
-	const hangmanIndex = wrongGuesses.length;
 	const disabledCharsText = 'Wrong guesses: ';
 
-	const src = `/images/hangman-${hangmanIndex}.png`;
-	const alt = `hangman-${hangmanIndex}`;
+	let hangmanIndex = 0;
+	let src = '';
+	let alt = '';
+
+	$: {
+		hangmanIndex = wrongGuesses.length;
+		src = `/images/hangman-${hangmanIndex}.png`;
+		alt = `hangman-${hangmanIndex}`;
+	}
 </script>
 
 <div class="grid grid-cols-4 items-center text-xl font-600">
 	<div class="col-span-1 image-container">
-		<img src="{src}" alt="{alt}" />
+		{#if hangmanIndex > 0}
+			<img src="{src}" alt="{alt}" />
+		{/if}
 	</div>
 	<div class="col-span-3 align-baseline">
 		<div class="headline">
