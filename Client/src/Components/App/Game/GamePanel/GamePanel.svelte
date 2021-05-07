@@ -5,16 +5,19 @@
 
 	const currentWordText = 'Current Word:'
 
-	const word = '_ _ _ _ - _ _ _ A _'
-	const disabledChars = ['A','Q','M'];
+	const word = '_ _ P _ - _ _ _ A _'
+	const correctGuesses = word.split(' ').filter(char => ['_','-'].indexOf(char) === -1);
+	const wrongGuesses = ['Q','M'];
+
+	const disabledChars = correctGuesses.concat(wrongGuesses);
 </script>
 
 
 <div class="panel-card w-full flex flex-col">
 	<div class="text-3xl pl-4">{currentWordText}</div>
 	<Word {word}/>
-	<HangmanRow {disabledChars} />
-	<div class="container keyboard-container mx-auto">
+	<HangmanRow {wrongGuesses}/>
+	<div class="keyboard-container mx-auto">
 		<Keyboard {disabledChars}/>
 	</div>
 </div>
