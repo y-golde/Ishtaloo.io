@@ -1,4 +1,4 @@
-package Util
+package cookieUtils
 
 import (
 	"os"
