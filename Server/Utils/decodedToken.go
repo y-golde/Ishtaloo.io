@@ -1,4 +1,4 @@
-package decodeToken
+package Util
 
 import (
 	"os"
