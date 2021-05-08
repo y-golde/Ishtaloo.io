@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"ishtaloo.io/DB/Scripts"
+	roomsScripts "ishtaloo.io/DB/Scripts/rooms"
 	entities "ishtaloo.io/Entities"
-	Util "ishtaloo.io/Utils"
+	cookieUtils "ishtaloo.io/Utils/cookie"
 )
 
 func postRoom(c echo.Context) (err error) {
@@ -17,7 +17,7 @@ func postRoom(c echo.Context) (err error) {
 	if err = c.Bind(r); err != nil {
 		return err
 	}
-	u, _ := Util.GetUserFromCookie(c)
+	u, _ := cookieUtils.GetUserFromCookie(c)
 	users := make([]entities.User, 10)
 	users = append([]entities.User{*u}, users...)
 	room := entities.Room{
@@ -30,7 +30,7 @@ func postRoom(c echo.Context) (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	Scripts.AddRoom(ctx, room)
+	roomsScripts.AddRoom(ctx, room)
 
 	return c.NoContent(http.StatusCreated)
 }
