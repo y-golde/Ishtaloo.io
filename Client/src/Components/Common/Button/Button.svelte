@@ -11,6 +11,9 @@
 		padding: 5px 15px;
 		border-radius: 10px;
 	}
+	button:focus {
+		outline: none;
+	}
 
 	button:focus-visible {
 		outline: none;
@@ -18,6 +21,11 @@
 
 	.primary {
 		background-color: var(--primary);
+		color: white;
+	}
+
+	.success {
+		background-color: var(--success);
 		color: white;
 	}
 </style>
