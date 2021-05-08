@@ -1,6 +1,8 @@
+import { setUser } from "../../../Utils/User/useUser"
+
 const UseLoginModal = () => {
     const handleLoginClick = (userName: string) => {
-        alert(userName)
+        setUser(userName);
     }
 
     const shouldDisable = (userName: string) => {
