@@ -2,6 +2,7 @@
 	import Headline from './Components/Common/Headline.svelte';
 	import Game from './Components/App/Game/Game.svelte';
 	import ThemeWrapper from './CSS/ThemeWrapper.svelte';
+	import LoginModal from './Components/App/LoginModal/LoginModal.svelte';
 
 	const headlineText = 'ishtaloo.io';
 </script>
@@ -11,6 +12,7 @@
 		<Headline text="{headlineText}" />
 		<Game />
 	</div>
+	<LoginModal show="{true}" />
 </ThemeWrapper>
 
 <style global lang="postcss">
