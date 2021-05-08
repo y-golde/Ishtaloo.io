@@ -2,7 +2,7 @@
 	export let text: string;
 </script>
 
-<div class="modal-header-wrapper shadow-md p-2">
+<div class="modal-header-wrapper shadow-md px-4 py-2 text-2xl">
 	{text}
 </div>
 

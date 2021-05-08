@@ -8,21 +8,24 @@
 	export let show: boolean;
 
 	let userName = '';
-	let { handleLoginClick } = UseLoginModal();
+	let { handleLoginClick, shouldDisable } = UseLoginModal();
 
 	const modalHeaderText = 'Login';
-	const placeHolderText = 'type here...';
+	const placeHolderText = 'nickname...';
+
+	let disabled = true;
+	$: {
+		disabled = shouldDisable(userName);
+	}
 </script>
 
 <Modal show="{show}">
 	<ModalHeader slot="header" text="{modalHeaderText}" />
-	<div slot="content">
-		<div class="flex flex-wrap p-3 gap-2 items-center text-md">
-			<div>Name:</div>
+	<div slot="content" class="text-2xl">
+		<p class="p-3">Hello, please provide a nickname:</p>
+		<div class="flex flex-wrap p-3 gap-2 items-center justify-center">
 			<Textfield bind:value="{userName}" placeholder="{placeHolderText}" />
-			<div>
-				<Button handleClick="{() => handleLoginClick(userName)}" />
-			</div>
+			<Button disabled="{disabled}" handleClick="{() => handleLoginClick(userName)}" />
 		</div>
 	</div>
 </Modal>

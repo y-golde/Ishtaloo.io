@@ -3,8 +3,13 @@ const UseLoginModal = () => {
         alert(userName)
     }
 
+    const shouldDisable = (userName: string) => {
+        return userName === ''
+    }
+
     return {
-        handleLoginClick
+        handleLoginClick,
+        shouldDisable
     };
 }
 
