@@ -25,7 +25,11 @@
 		<p class="p-3">Hello, please provide a nickname:</p>
 		<div class="flex flex-wrap p-3 gap-2 items-center justify-center">
 			<Textfield bind:value="{userName}" placeholder="{placeHolderText}" />
-			<Button disabled="{disabled}" handleClick="{() => handleLoginClick(userName)}" />
+			<Button
+				disabled="{disabled}"
+				handleClick="{() => handleLoginClick(userName)}"
+				text="{'sign in'}"
+			/>
 		</div>
 	</div>
 </Modal>

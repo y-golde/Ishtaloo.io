@@ -11,9 +11,10 @@
 		userName = value;
 	});
 
-	const headlineText = 'ishtaloo.io';
 	let showLoginModal = false;
 	$: showLoginModal = shouldPropLogin(userName);
+
+	const headlineText = 'ishtaloo.io';
 </script>
 
 <ThemeWrapper>
