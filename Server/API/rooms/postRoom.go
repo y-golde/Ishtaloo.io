@@ -12,7 +12,6 @@ import (
 )
 
 func postRoom(c echo.Context) (err error) {
-	//r := new(map[string]interface{})
 	r := new(entities.Room)
 	if err = c.Bind(r); err != nil {
 		return err

@@ -11,9 +11,9 @@ import (
 
 func AddRoom(ctx context.Context, room entities.Room) {
 	roomsCollection := Collections.RoomsGetCollection()
-	newWordsResult, err := roomsCollection.InsertOne(ctx, room)
+	newRoomsResult, err := roomsCollection.InsertOne(ctx, room)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Inserted single document: ", newWordsResult.InsertedID)
+	fmt.Println("Inserted single document: ", newRoomsResult.InsertedID)
 }
