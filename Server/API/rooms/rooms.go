@@ -6,4 +6,5 @@ import (
 
 func RoomsController(e *echo.Echo) {
 	e.POST("/rooms", postRoom)
+	e.GET("/rooms", getRooms)
 }
