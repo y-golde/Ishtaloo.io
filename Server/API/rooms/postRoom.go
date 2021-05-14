@@ -20,7 +20,6 @@ func postRoom(c echo.Context) (err error) {
 	users := make([]entities.User, 10)
 	users = append([]entities.User{*u}, users...)
 	room := entities.Room{
-		RoomId:      r.RoomId,
 		CurrentWord: r.CurrentWord,
 		Guesses:     r.Guesses,
 		Users:       users,
