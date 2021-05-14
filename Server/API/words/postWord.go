@@ -11,12 +11,12 @@ import (
 )
 
 func postWord(c echo.Context) (err error) {
-	w := new(entities.Word)
+	w := new(struct{ Word string })
 	if err = c.Bind(w); err != nil {
 		return err
 	}
 	word := entities.Word{
-		Word: w.Word,
+		Word: []rune(w.Word),
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
