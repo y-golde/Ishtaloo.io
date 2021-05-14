@@ -2,11 +2,14 @@ package rooms
 
 import (
 	"context"
+	"math/rand"
 	"net/http"
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson"
 	roomsScripts "ishtaloo.io/DB/Scripts/rooms"
+	wordsScripts "ishtaloo.io/DB/Scripts/words"
 	entities "ishtaloo.io/Entities"
 	cookieUtils "ishtaloo.io/Utils/cookie"
 )
@@ -16,11 +19,16 @@ func postRoom(c echo.Context) (err error) {
 	if err = c.Bind(r); err != nil {
 		return err
 	}
+
 	u, _ := cookieUtils.GetUserFromCookie(c)
 	users := make([]entities.User, 10)
 	users = append([]entities.User{*u}, users...)
+
+	words := wordsScripts.GetWordsByFilter(bson.M{})
+	randomIndex := rand.Intn(len(words))
+
 	room := entities.Room{
-		CurrentWord: r.CurrentWord,
+		CurrentWord: words[randomIndex].Word,
 		Guesses:     r.Guesses,
 		Users:       users,
 	}
