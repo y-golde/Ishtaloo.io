@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
-	"ishtaloo.io/DB/Scripts"
+	wordsScripts "ishtaloo.io/DB/Scripts/words"
 	entities "ishtaloo.io/Entities"
 )
 
@@ -22,7 +22,7 @@ func postWord(c echo.Context) (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	Scripts.AddWord(ctx, word)
+	wordsScripts.AddWord(ctx, word)
 
 	return c.String(http.StatusOK, "word wrod")
 }
