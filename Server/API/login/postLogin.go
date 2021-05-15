@@ -13,7 +13,7 @@ import (
 
 func postLogin(c echo.Context) (err error) {
 	cookie := new(http.Cookie)
-	cookie.Name = "userId"
+	cookie.Name = "user"
 	u := new(entities.LoginRequest)
 	if err = c.Bind(u); err != nil {
 		return err

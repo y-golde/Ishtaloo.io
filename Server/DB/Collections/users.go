@@ -6,5 +6,5 @@ import (
 )
 
 func UsersGetCollection() *mongo.Collection {
-	return DB.Client.Database("router-test").Collection("users")
+	return DB.Client.Database("ishtaloo").Collection("users")
 }

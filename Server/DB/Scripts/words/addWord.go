@@ -1,4 +1,4 @@
-package Scripts
+package wordsScripts
 
 import (
 	"context"
