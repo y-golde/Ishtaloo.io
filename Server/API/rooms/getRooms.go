@@ -28,3 +28,7 @@ func getRooms(c echo.Context) error {
 	}
 	var clientRooms []entities.ClientRoom
 	for _, r := range rooms {
+		clientRooms = append(clientRooms, roomUtils.RoomToClientRoom(&r))
+	}
+	return c.JSON(http.StatusOK, clientRooms)
+}

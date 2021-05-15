@@ -28,3 +28,4 @@ func getRoomById(c echo.Context) error {
 	clientRoom := roomUtils.RoomToClientRoom(&room)
 
 	return c.JSON(http.StatusOK, clientRoom)
+}
