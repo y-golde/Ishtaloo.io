@@ -28,9 +28,10 @@ func postRoom(c echo.Context) (err error) {
 	words := wordsScripts.GetWordsByFilter(bson.M{})
 	randomIndex := rand.Intn(len(words))
 
+	guesses := *new([]rune)
 	room := entities.Room{
 		CurrentWord: words[randomIndex].Word,
-		Guesses:     r.Guesses,
+		Guesses:     guesses,
 		Users:       users,
 	}
 
