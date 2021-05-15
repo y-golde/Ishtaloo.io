@@ -6,5 +6,5 @@ import (
 )
 
 func RoomsGetCollection() *mongo.Collection {
-	return DB.Client.Database("router-test").Collection("rooms")
+	return DB.Client.Database("ishtaloo").Collection("rooms")
 }
