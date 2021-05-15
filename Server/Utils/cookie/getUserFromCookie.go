@@ -8,12 +8,11 @@ import (
 )
 
 func GetUserFromCookie(c echo.Context) (*entities.User, error) {
-	//user := new(entities.User)
 	cookie, err := c.Cookie("user")
 	if err != nil {
 		return nil, err
 	}
-	u, _ := decodedToken(cookie.Value)
+	u, _ := decodeToken(cookie.Value)
 	fmt.Println(u)
 
 	user := &entities.User{
