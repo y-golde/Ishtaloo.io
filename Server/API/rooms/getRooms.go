@@ -10,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"ishtaloo.io/DB/Collections"
 	entities "ishtaloo.io/Entities"
+	roomUtils "ishtaloo.io/Utils/room"
 )
 
 func getRooms(c echo.Context) error {
@@ -25,5 +26,9 @@ func getRooms(c echo.Context) error {
 	if err = cursor.All(ctx, &rooms); err != nil {
 		log.Fatal(err)
 	}
-	return c.JSON(http.StatusOK, rooms)
+	var clientRooms []entities.ClientRoom
+	for _, r := range rooms {
+		clientRooms = append(clientRooms, roomUtils.RoomToClientRoom(&r))
+	}
+	return c.JSON(http.StatusOK, clientRooms)
 }
