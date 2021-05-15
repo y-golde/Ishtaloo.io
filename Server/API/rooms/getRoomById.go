@@ -11,6 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"ishtaloo.io/DB/Collections"
 	entities "ishtaloo.io/Entities"
+	roomUtils "ishtaloo.io/Utils/room"
 )
 
 func getRoomById(c echo.Context) error {
@@ -24,5 +25,6 @@ func getRoomById(c echo.Context) error {
 		log.Fatal(err)
 	}
 
-	return c.JSON(http.StatusOK, room)
-}
+	clientRoom := roomUtils.RoomToClientRoom(&room)
+
+	return c.JSON(http.StatusOK, clientRoom)
