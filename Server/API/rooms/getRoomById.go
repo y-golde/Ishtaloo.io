@@ -24,19 +24,8 @@ func getRoomById(c echo.Context) error {
 	if err := roomsCollection.FindOne(ctx, bson.M{"_id": id}).Decode(&room); err != nil {
 		log.Fatal(err)
 	}
-	roomUtils.EncryptWord(room.CurrentWord, room.Guesses)
 
-	clientRoom := struct {
-		RoomId      string
-		CurrentWord string
-		Guesses     []rune
-		Users       []entities.User
-	}{
-		RoomId:      room.RoomId,
-		CurrentWord: string(room.CurrentWord),
-		Guesses:     room.Guesses,
-		Users:       room.Users,
-	}
+	clientRoom := roomUtils.RoomToClientRoom(&room)
 
 	return c.JSON(http.StatusOK, clientRoom)
 }
