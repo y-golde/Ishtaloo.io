@@ -17,7 +17,8 @@ func postRoom(c echo.Context) (err error) {
 		return err
 	}
 	u, _ := cookieUtils.GetUserFromCookie(c)
-	users := make([]entities.User, 10)
+	const maxUsers int = 10
+	users := make([]entities.User, maxUsers)
 	users = append([]entities.User{*u}, users...)
 	room := entities.Room{
 		CurrentWord: r.CurrentWord,
