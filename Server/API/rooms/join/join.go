@@ -5,5 +5,5 @@ import (
 )
 
 func JoinController(e *echo.Echo) {
-	e.PATCH("/rooms/join/:roomId", patchJoin)
+	e.POST("/rooms/join/:roomId", postJoin)
 }

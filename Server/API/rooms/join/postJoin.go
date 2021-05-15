@@ -10,7 +10,7 @@ import (
 	cookieUtils "ishtaloo.io/Utils/cookie"
 )
 
-func patchJoin(c echo.Context) (err error) {
+func postJoin(c echo.Context) (err error) {
 	roomId := c.Param("roomId")
 	u, _ := cookieUtils.GetUserFromCookie(c)
 
