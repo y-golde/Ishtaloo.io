@@ -2,6 +2,7 @@ package rooms
 
 import (
 	"github.com/labstack/echo/v4"
+	"ishtaloo.io/API/rooms/guess"
 	"ishtaloo.io/API/rooms/join"
 )
 
@@ -11,4 +12,5 @@ func RoomsController(e *echo.Echo) {
 	e.GET("/rooms/:roomId", getRoomById)
 
 	join.JoinController(e)
+	guess.GuessController(e)
 }
