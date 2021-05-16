@@ -12,6 +12,9 @@ import (
 )
 
 func AddGuessToRoom(ctx context.Context, roomId string, guess rune) error {
+	if guess < 65 || guess > 90 {
+		return errors.New("guess is not a capital English letter")
+	}
 
 	roomsCollection := Collections.RoomsGetCollection()
 	id, _ := primitive.ObjectIDFromHex(roomId)
