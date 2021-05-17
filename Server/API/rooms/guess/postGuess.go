@@ -36,13 +36,11 @@ func postGuess(c echo.Context) (err error) {
 	if err = c.Bind(g); err != nil {
 		return c.String(http.StatusForbidden, "body doesn't contain string.")
 	}
-	var r rune
-	for _, v := range g.Guess {
-		if r != 0 {
-			return c.String(http.StatusForbidden, "body contains more than single character.")
-		}
-		r = v
+
+	if len(g.Guess) != 1 {
+		return c.String(http.StatusForbidden, "body contains more than single character.")
 	}
+	r := rune(g.Guess[0])
 
 	if err = roomsScripts.AddGuessToRoom(ctx, roomId, r); err != nil {
 		return c.String(http.StatusInternalServerError, strings.Join([]string{err.Error(), "from AddGuessToRoom"}, ", "))
