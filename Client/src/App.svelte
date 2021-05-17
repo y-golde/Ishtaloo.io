@@ -1,18 +1,18 @@
 <script lang="ts">
-	import user from './Store/user';
-	import { shouldPropLogin } from './Utils/User/useUser';
+	import authenticated from './Store/authenticated';
+	import { shouldPropLogin } from './Utils/Authenticated/useAuthenticated';
 	import Headline from './Components/Common/Headline.svelte';
 	import Game from './Components/App/Game/Game.svelte';
 	import ThemeWrapper from './CSS/ThemeWrapper.svelte';
 	import LoginModal from './Components/App/LoginModal/LoginModal.svelte';
 
-	let userName: string = '';
-	const unsubscribe = user.subscribe((value) => {
-		userName = value;
+	let isAuthenticated = false;
+	const unsubscribe = authenticated.subscribe((value) => {
+		isAuthenticated = value;
 	});
 
 	let showLoginModal = false;
-	$: showLoginModal = shouldPropLogin(userName);
+	$: showLoginModal = shouldPropLogin(isAuthenticated);
 
 	const headlineText = 'ishtaloo.io';
 </script>

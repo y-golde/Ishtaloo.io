@@ -1,4 +1,4 @@
-package login
+package auth
 
 import (
 	"net/http"
@@ -11,7 +11,7 @@ import (
 	entities "ishtaloo.io/Entities"
 )
 
-func postLogin(c echo.Context) (err error) {
+func postAuth(c echo.Context) (err error) {
 	cookie := new(http.Cookie)
 	cookie.Name = "user"
 	u := new(entities.LoginRequest)
