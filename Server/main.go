@@ -31,8 +31,11 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	// somtehing about e
-	e.Use(middleware.CORS())
+	// change with dotenv later to remove origins
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+  		AllowOrigins: []string{"http://localhost:5000"},
+		AllowCredentials: true,
+	}))
 
 	// Route => handler
 	rootController.RootController(e)
