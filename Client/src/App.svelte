@@ -1,10 +1,13 @@
 <script lang="ts">
+	import { Router, Route } from 'svelte-routing';
+
 	import authenticated from './Store/authenticated';
-	import { shouldPropLogin } from './Utils/Authenticated/useAuthenticated';
-	import Headline from './Components/Common/Headline.svelte';
 	import Game from './Components/App/Game/Game.svelte';
 	import ThemeWrapper from './CSS/ThemeWrapper.svelte';
+	import Portal from './Components/App/Portal/Portal.svelte';
+	import Headline from './Components/Common/Headline.svelte';
 	import LoginModal from './Components/App/LoginModal/LoginModal.svelte';
+	import { shouldPropLogin } from './Utils/Authenticated/useAuthenticated';
 
 	let isAuthenticated = false;
 	const unsubscribe = authenticated.subscribe((value) => {
@@ -20,7 +23,14 @@
 <ThemeWrapper>
 	<div class="main-wrapper">
 		<Headline text="{headlineText}" />
-		<Game />
+		<Router url="">
+			<Route path="/">
+				<Portal />
+			</Route>
+			<Route path="/room/:roomid" let:params>
+				<Game roomId="{params.roomid}" />
+			</Route>
+		</Router>
 	</div>
 	<LoginModal show="{showLoginModal}" />
 </ThemeWrapper>

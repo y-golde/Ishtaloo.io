@@ -5,7 +5,7 @@
 
 	export let player: Player;
 
-	const playerColor = `background: ${strToGradient(player.username)}`;
+	const playerColor = `background: ${strToGradient(player.userName)}`;
 </script>
 
 <div class="p-2 text-lg wrapper">
@@ -14,7 +14,7 @@
 			<div class="active-circle align-middle" style="{playerColor}"></div>
 		</div>
 		<div class="flex-grow-0">
-			<div class="user-name align-middle">{player.username}</div>
+			<div class="user-name align-middle">{player.userName}</div>
 		</div>
 	</div>
 </div>

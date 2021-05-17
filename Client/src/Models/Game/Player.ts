@@ -1,6 +1,6 @@
 interface Player {
-	id?: string;
-	username: string;
+	userId: string;
+	userName: string;
 }
 
 export default Player;
