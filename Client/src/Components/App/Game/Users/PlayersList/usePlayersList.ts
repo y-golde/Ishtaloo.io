@@ -1,5 +1,10 @@
+import { getContext } from 'svelte';
+
 const UsePlayersList = () => {
+	const roomId = getContext('roomId');
+
 	const fetchPlayers = async () => {
+		console.log(roomId);
 		return [
 			{
 				id: '0e3dksms',

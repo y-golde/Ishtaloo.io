@@ -28,7 +28,7 @@
 				<Portal />
 			</Route>
 			<Route path="/room/:roomid" let:params>
-				<Game roomId="{params.roomId}" />
+				<Game roomId="{params.roomid}" />
 			</Route>
 		</Router>
 	</div>
