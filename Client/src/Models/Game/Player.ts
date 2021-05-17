@@ -1,5 +1,5 @@
 interface Player {
-	userId?: string;
+	userId: string;
 	userName: string;
 }
 
