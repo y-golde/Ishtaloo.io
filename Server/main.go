@@ -23,10 +23,8 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	// Echo instance
 	e := echo.New()
 
-	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
@@ -36,23 +34,18 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	// initialize global variable
 	sseChannel = entities.SSEChannel{
 		Clients:  make([]chan string, 0),
 		Notifier: make(chan string),
 	}
 
-	// Route => handler
 	rootController.RootController(e, &sseChannel)
 
-	// done signal to go routine.
 	done := make(chan interface{})
 	defer close(done)
 
-	// run our broadcaster go routine.
 	go broadcaster(done, &sseChannel)
 
-	// Start server
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }
 
