@@ -15,6 +15,11 @@ func postWord(c echo.Context) (err error) {
 	if err = c.Bind(w); err != nil {
 		return err
 	}
+	for _, r := range w.Word {
+		if !runeValid(r) {
+			return c.String(http.StatusForbidden, "Word string not valid.")
+		}
+	}
 	word := entities.Word{
 		Word: []rune(w.Word),
 	}
@@ -25,4 +30,11 @@ func postWord(c echo.Context) (err error) {
 	wordsScripts.AddWord(ctx, word)
 
 	return c.String(http.StatusOK, "word wrod")
+}
+
+func runeValid(r rune) bool {
+	if r >= 65 && r <= 90 || r == 32 || r == 45 {
+		return true
+	}
+	return false
 }
