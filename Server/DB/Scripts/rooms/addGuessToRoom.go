@@ -12,7 +12,7 @@ import (
 )
 
 func AddGuessToRoom(ctx context.Context, roomId string, guess rune) error {
-	if guessValid(guess) {
+	if !guessValid(guess) {
 		return errors.New("guess is not a capital English letter")
 	}
 

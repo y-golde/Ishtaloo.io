@@ -5,5 +5,5 @@ import (
 )
 
 func GuessController(e *echo.Echo) {
-	e.POST("/rooms/guess/:roomId", postGuess)
+	e.POST("/rooms/guess", postGuess)
 }
