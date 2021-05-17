@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -37,14 +36,14 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	// Route => handler
-	rootController.RootController(e, &sseChannel)
-
 	// initialize global variable
 	sseChannel = entities.SSEChannel{
 		Clients:  make([]chan string, 0),
 		Notifier: make(chan string),
 	}
+
+	// Route => handler
+	rootController.RootController(e, &sseChannel)
 
 	// done signal to go routine.
 	done := make(chan interface{})
@@ -52,9 +51,6 @@ func main() {
 
 	// run our broadcaster go routine.
 	go broadcaster(done, &sseChannel)
-
-	e.GET("/sse", sseRequest)
-	e.GET("/log", func(c echo.Context) error { return logRequest(c, &sseChannel) })
 
 	// Start server
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
@@ -70,41 +66,6 @@ func broadcaster(done <-chan interface{}, sseChanel *entities.SSEChannel) {
 			for _, channel := range sseChannel.Clients {
 				channel <- data
 			}
-		}
-	}
-}
-
-func logRequest(c echo.Context, sseChanel *entities.SSEChannel) error {
-	var body string
-	if err := c.Bind(&body); err != nil {
-		return c.String(http.StatusForbidden, "body bad format.")
-	}
-
-	sseChannel.Notifier <- "users changed"
-	return nil
-}
-
-func sseRequest(c echo.Context) error {
-	c.Response().Header().Set(echo.HeaderContentType, "text/event-stream")
-	c.Response().Header().Set("Cache-Control", "no-cache")
-	c.Response().Header().Set("Connection", "keep-alive")
-	c.Response().WriteHeader(http.StatusOK)
-
-	sseChan := make(chan string)
-	sseChannel.Clients = append(sseChannel.Clients, sseChan)
-
-	d := make(chan interface{})
-	defer close(d)
-	defer fmt.Println("Closing channel.")
-
-	for {
-		select {
-		case <-d:
-			close(sseChan)
-			return c.NoContent(http.StatusOK)
-		case data := <-sseChan:
-			fmt.Fprintf(c.Response(), "new event: %v \n\n", data)
-			c.Response().Flush()
 		}
 	}
 }

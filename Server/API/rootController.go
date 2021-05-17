@@ -5,6 +5,7 @@ import (
 	"ishtaloo.io/API/auth"
 	"ishtaloo.io/API/index"
 	"ishtaloo.io/API/rooms"
+	"ishtaloo.io/API/sse"
 	"ishtaloo.io/API/users"
 	"ishtaloo.io/API/words"
 	entities "ishtaloo.io/Entities"
@@ -16,4 +17,5 @@ func RootController(e *echo.Echo, sseChanel *entities.SSEChannel) {
 	words.WordsController(e)
 	auth.AuthController(e)
 	rooms.RoomsController(e, sseChanel)
+	sse.SSEController(e, sseChanel)
 }
