@@ -18,6 +18,7 @@
 			const { roomId } = rooms[0];
 			const succssesful = await joinRoom(roomId);
 			if (succssesful) {
+				unsubscribe();
 				navigate(`/room/${roomId}`);
 			}
 		}
@@ -26,7 +27,6 @@
 	$: {
 		if (isAuthenticated) {
 			autoJoinRoom();
-			unsubscribe();
 		}
 	}
 </script>
