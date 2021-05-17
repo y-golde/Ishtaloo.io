@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -39,7 +38,7 @@ func main() {
 	}))
 
 	// Route => handler
-	rootController.RootController(e)
+	rootController.RootController(e, &sseChannel)
 
 	// initialize global variable
 	sseChannel = entities.SSEChannel{
@@ -52,16 +51,16 @@ func main() {
 	defer close(done)
 
 	// run our broadcaster go routine.
-	go broadcaster(done)
+	go broadcaster(done, &sseChannel)
 
 	e.GET("/sse", sseRequest)
-	e.GET("/log", logRequest)
+	e.GET("/log", func(c echo.Context) error { return logRequest(c, &sseChannel) })
 
 	// Start server
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }
 
-func broadcaster(done <-chan interface{}) {
+func broadcaster(done <-chan interface{}, sseChanel *entities.SSEChannel) {
 	fmt.Println("Broadcaster Started.")
 	for {
 		select {
@@ -75,31 +74,21 @@ func broadcaster(done <-chan interface{}) {
 	}
 }
 
-func logRequest(c echo.Context) error {
-	//buf := new(strings.Builder)
+func logRequest(c echo.Context, sseChanel *entities.SSEChannel) error {
 	var body string
 	if err := c.Bind(&body); err != nil {
 		return c.String(http.StatusForbidden, "body bad format.")
 	}
 
-	logMsg := fmt.Sprintf("Method: %v, Body: %v", "GET", body)
-	fmt.Println(logMsg)
-	sseChannel.Notifier <- logMsg
+	sseChannel.Notifier <- "users changed"
 	return nil
 }
 
 func sseRequest(c echo.Context) error {
-
 	c.Response().Header().Set(echo.HeaderContentType, "text/event-stream")
 	c.Response().Header().Set("Cache-Control", "no-cache")
 	c.Response().Header().Set("Connection", "keep-alive")
-	//c.Response().Header().Set("Access-Control-Allow-Origin", "*")
 	c.Response().WriteHeader(http.StatusOK)
-
-	enc := json.NewEncoder(c.Response())
-	if err := enc.Encode("new user join"); err != nil {
-		return err
-	}
 
 	sseChan := make(chan string)
 	sseChannel.Clients = append(sseChannel.Clients, sseChan)
@@ -114,8 +103,7 @@ func sseRequest(c echo.Context) error {
 			close(sseChan)
 			return c.NoContent(http.StatusOK)
 		case data := <-sseChan:
-			fmt.Printf("data: %v \n\n", data)
-			fmt.Fprintf(c.Response(), "data: %v \n\n", data)
+			fmt.Fprintf(c.Response(), "new event: %v \n\n", data)
 			c.Response().Flush()
 		}
 	}
