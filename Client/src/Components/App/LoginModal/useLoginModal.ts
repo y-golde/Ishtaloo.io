@@ -1,32 +1,27 @@
 import axios from 'axios';
-import { setUser } from '../../../Utils/User/useUser';
+import { setAuthenticated } from '../../../Utils/Authenticated/useAuthenticated';
 
 const UseLoginModal = () => {
-	const handleLoginClick = (userName: string) => {
-		console.log('hey');
-		postAuth(userName);
-		//setUser(userName);
+	const handleLoginClick = async (userName: string) => {
+		const authenticated = await authenticate(userName) 
+		setAuthenticated(authenticated);
 	};
 
 	const shouldDisable = (userName: string) => {
 		return userName === '';
 	};
 
-	const postAuth = (userName: string) => {
+	const authenticate = async (userName: string) => {
 		const body = {
 			userName
 		}
-
-		axios.post('/auth', body)
+		return await axios.post('/auth', body)
 			.then(res => {
-				console.log(res);
-
+				return res.status === 200;
 			})
 			.catch(err => {
-				console.log(err);
-			})
-		
-
+				return false;
+			});
 	}
 
 	return {
