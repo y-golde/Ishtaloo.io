@@ -18,22 +18,34 @@ func AddUserToRoom(ctx context.Context, roomId string, user *entities.User) {
 		log.Fatal(err)
 	}
 	users := room.Users
-	users = append([]entities.User{*user}, users...)
 
-	_, err := roomsCollection.UpdateOne(
-		ctx,
-		bson.M{"_id": id},
-		bson.D{
-			primitive.E{
-				Key: "$set",
-				Value: bson.D{primitive.E{
-					Key:   "users",
-					Value: users,
-				}}},
-		},
-	)
-	if err != nil {
-		log.Fatal(err)
+	if !userAlreadyExists(user,users) {
+		users = append([]entities.User{*user}, users...)
+		
+		_, err := roomsCollection.UpdateOne(
+			ctx,
+			bson.M{"_id": id},
+			bson.D{
+				primitive.E{
+					Key: "$set",
+					Value: bson.D{primitive.E{
+						Key:   "users",
+						Value: users,
+					}}},
+				},
+			)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
+}
 
+func userAlreadyExists(user *entities.User, users []entities.User) bool {
+	for _, curUser := range users {
+		if(curUser.UserId == user.UserId) {
+			return true
+		}
+	}
+	
+	return false
 }
