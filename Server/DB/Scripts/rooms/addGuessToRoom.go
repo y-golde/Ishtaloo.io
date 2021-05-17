@@ -12,7 +12,7 @@ import (
 )
 
 func AddGuessToRoom(ctx context.Context, roomId string, guess rune) error {
-	if guess < 65 || guess > 90 {
+	if guessValid(guess) {
 		return errors.New("guess is not a capital English letter")
 	}
 
@@ -48,4 +48,11 @@ func AddGuessToRoom(ctx context.Context, roomId string, guess rune) error {
 		return err
 	}
 	return nil
+}
+
+func guessValid(g rune) bool {
+	if g < 65 || g > 90 {
+		return false
+	}
+	return true
 }
