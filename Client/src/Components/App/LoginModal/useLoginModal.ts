@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setAuthenticated } from '../../../Utils/Authenticated/useAuthenticated';
+import { setAuthenticated } from 'Utils/Authenticated/useAuthenticated';
 
 const UseLoginModal = () => {
 	const handleLoginClick = async (userName: string) => {

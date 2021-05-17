@@ -1,4 +1,4 @@
-import authenticated from '../../Store/authenticated';
+import authenticated from 'Store/authenticated';
 
 const AUTH_CONTEXT_NAME = 'authenticated';
 

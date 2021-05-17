@@ -1,35 +1,32 @@
-
 version: '3.3'
-services: 
+services:
     api:
         container_name: 'api'
         build: './Server'
-        ports: 
+        ports:
             - '9000:9000'
-        depends_on: 
+        depends_on:
             - 'mongo'
-        networks: 
+        networks:
             - routertest
-        env_file: 
+        env_file:
             - ./Server/.env.prod
     client:
         container_name: 'client'
         build: './Client'
-        ports: 
+        ports:
             - 80:80
-        depends_on: 
+        depends_on:
             - 'api'
-        networks: 
+        networks:
             - routertest
     mongo:
         image: 'mongo:latest'
-        container_name: 'mongo'
+        container_name: 'test-mongo'
         ports:
             - '27017:27017'
-        networks: 
+        networks:
             - routertest
-        volumes: 
-            - 'data:/data/db'
-networks: 
+networks:
     routertest:
         driver: bridge
