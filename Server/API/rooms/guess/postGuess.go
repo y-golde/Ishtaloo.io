@@ -13,20 +13,13 @@ import (
 
 func postGuess(c echo.Context) (err error) {
 	roomId := c.Param("roomId")
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
 	u, _ := cookieUtils.GetUserFromCookie(c)
-	usersInRoom, err := roomsScripts.GetUsersOfRoom(ctx, roomId)
+	userInRoom, err := roomsScripts.UserInRoom(ctx, roomId, u)
 	if err != nil {
-		return c.String(http.StatusInternalServerError, strings.Join([]string{err.Error(), "from GetUserOfRoom"}, ", "))
-	}
-	userInRoom := false
-	for _, v := range usersInRoom {
-		if u.UserId == v.UserId {
-			userInRoom = true
-			break
-		}
+		return c.String(http.StatusInternalServerError, strings.Join([]string{err.Error(), "from UserInRoom"}, ", "))
 	}
 	if !userInRoom {
 		return c.String(http.StatusForbidden, "User not in room.")
