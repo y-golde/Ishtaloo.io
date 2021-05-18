@@ -9,11 +9,7 @@ import (
 )
 
 func getSSE(c echo.Context, sseChannel *entities.SSEChannel) error {
-	c.Response().Header().Set(echo.HeaderContentType, "text/event-stream")
-	c.Response().Header().Set("Cache-Control", "no-cache")
-	c.Response().Header().Set("Connection", "keep-alive")
-	c.Response().WriteHeader(http.StatusOK)
-
+	setSSEHeaders(c)
 	sseChan := make(chan string)
 	sseChannel.Clients = append(sseChannel.Clients, sseChan)
 
@@ -31,4 +27,11 @@ func getSSE(c echo.Context, sseChannel *entities.SSEChannel) error {
 			c.Response().Flush()
 		}
 	}
+}
+
+func setSSEHeaders(c echo.Context) {
+	c.Response().Header().Set(echo.HeaderContentType, "text/event-stream")
+	c.Response().Header().Set("Cache-Control", "no-cache")
+	c.Response().Header().Set("Connection", "keep-alive")
+	c.Response().WriteHeader(http.StatusOK)
 }
