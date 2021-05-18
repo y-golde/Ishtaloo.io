@@ -5,14 +5,15 @@ import (
 	"ishtaloo.io/API/rooms/guess"
 	"ishtaloo.io/API/rooms/join"
 	roomUsers "ishtaloo.io/API/rooms/users"
+	entities "ishtaloo.io/Entities"
 )
 
-func RoomsController(e *echo.Echo) {
+func RoomsController(e *echo.Echo, sseChannel *entities.SSEChannel) {
 	e.POST("/rooms", postRoom)
 	e.GET("/rooms", getRooms)
 	e.GET("/rooms/:roomId", getRoomById)
 
-	join.JoinController(e)
+	join.JoinController(e, sseChannel)
 	guess.GuessController(e)
 	roomUsers.UsersController(e)
 }

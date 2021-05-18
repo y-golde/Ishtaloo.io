@@ -1,20 +1,19 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"go.mongodb.org/mongo-driver/bson"
 	rootController "ishtaloo.io/API"
 	"ishtaloo.io/DB"
-	"ishtaloo.io/DB/Collections"
+	entities "ishtaloo.io/Entities"
+	sse "ishtaloo.io/SSE"
 )
+
+var sseChannel entities.SSEChannel
 
 func main() {
 	DB.InitClient()
@@ -24,36 +23,28 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	// Echo instance
 	e := echo.New()
 
-	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
 	// change with dotenv later to remove origins
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-  		AllowOrigins: []string{"http://localhost:5000"},
+		AllowOrigins:     []string{"http://localhost:5000"},
 		AllowCredentials: true,
 	}))
 
-	// Route => handler
-	rootController.RootController(e)
+	sseChannel = entities.SSEChannel{
+		Clients:  make([]chan string, 0),
+		Notifier: make(chan string),
+	}
 
-	e.GET("/api", func(c echo.Context) error {
-		fmt.Printf("/API/ WAS CALLED")
-		usersCollection := Collections.UsersGetCollection()
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		defer cancel()
+	rootController.RootController(e, &sseChannel)
 
-		cur, _ := usersCollection.Find(ctx, bson.M{})
+	done := make(chan interface{})
+	defer close(done)
 
-		var users []bson.M
-		err = cur.All(ctx, &users)
+	go sse.Broadcaster(done, &sseChannel)
 
-		return c.JSON(200, users)
-	})
-
-	// Start server
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }
