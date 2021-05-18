@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -11,6 +10,7 @@ import (
 	rootController "ishtaloo.io/API"
 	"ishtaloo.io/DB"
 	entities "ishtaloo.io/Entities"
+	sse "ishtaloo.io/SSE"
 )
 
 var sseChannel entities.SSEChannel
@@ -44,21 +44,7 @@ func main() {
 	done := make(chan interface{})
 	defer close(done)
 
-	go broadcaster(done, &sseChannel)
+	go sse.Broadcaster(done, &sseChannel)
 
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
-}
-
-func broadcaster(done <-chan interface{}, sseChanel *entities.SSEChannel) {
-	fmt.Println("Broadcaster Started.")
-	for {
-		select {
-		case <-done:
-			return
-		case data := <-sseChannel.Notifier:
-			for _, channel := range sseChannel.Clients {
-				channel <- data
-			}
-		}
-	}
 }
