@@ -10,8 +10,10 @@ const UsePortal = () => {
                 return [];
             })
         if(rooms === null) {
-            await createRoom();
-            return fetchRooms();
+            const successful = await createRoom()
+            if(successful) {
+                return fetchRooms();
+            }
         }
         return rooms;
     } 
