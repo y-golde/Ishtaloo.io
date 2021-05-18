@@ -8,6 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"ishtaloo.io/DB/Collections"
 	entities "ishtaloo.io/Entities"
+	roomUtils "ishtaloo.io/Utils/room"
 )
 
 func AddUserToRoom(ctx context.Context, roomId string, user *entities.User) {
@@ -19,9 +20,9 @@ func AddUserToRoom(ctx context.Context, roomId string, user *entities.User) {
 	}
 	users := room.Users
 
-	if !userAlreadyExists(user,users) {
+	if roomUtils.UserExistsInSlice(user, users) == -1 {
 		users = append([]entities.User{*user}, users...)
-		
+
 		_, err := roomsCollection.UpdateOne(
 			ctx,
 			bson.M{"_id": id},
@@ -32,20 +33,10 @@ func AddUserToRoom(ctx context.Context, roomId string, user *entities.User) {
 						Key:   "users",
 						Value: users,
 					}}},
-				},
-			)
+			},
+		)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
-}
-
-func userAlreadyExists(user *entities.User, users []entities.User) bool {
-	for _, curUser := range users {
-		if(curUser.UserId == user.UserId) {
-			return true
-		}
-	}
-	
-	return false
 }
