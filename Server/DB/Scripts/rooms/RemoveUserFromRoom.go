@@ -2,6 +2,7 @@ package roomsScripts
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -11,7 +12,7 @@ import (
 	roomUtils "ishtaloo.io/Utils/room"
 )
 
-func AddUserToRoom(ctx context.Context, roomId string, user *entities.User) {
+func RemoveUserFromRoom(ctx context.Context, roomId string, user *entities.User) error {
 	roomsCollection := Collections.RoomsGetCollection()
 	id, _ := primitive.ObjectIDFromHex(roomId)
 	var room entities.Room
@@ -20,8 +21,8 @@ func AddUserToRoom(ctx context.Context, roomId string, user *entities.User) {
 	}
 	users := room.Users
 
-	if roomUtils.UserExistsInSlice(user, users) == -1 {
-		users = append([]entities.User{*user}, users...)
+	if u := roomUtils.UserExistsInSlice(user, users); u > -1 {
+		users = append(users[:u], users[u+1:]...)
 
 		_, err := roomsCollection.UpdateOne(
 			ctx,
@@ -36,7 +37,9 @@ func AddUserToRoom(ctx context.Context, roomId string, user *entities.User) {
 			},
 		)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
+		return nil
 	}
+	return fmt.Errorf("user with id: %v, doesn't exist in room: %v", user.UserId, roomId)
 }
