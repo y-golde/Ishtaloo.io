@@ -14,6 +14,6 @@ func RoomsController(e *echo.Echo, sseChannel *entities.SSEChannel) {
 	e.GET("/rooms/:roomId", getRoomById)
 
 	join.JoinController(e, sseChannel)
-	guess.GuessController(e)
+	guess.GuessController(e, sseChannel)
 	roomUsers.UsersController(e)
 }

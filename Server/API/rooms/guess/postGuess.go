@@ -12,7 +12,7 @@ import (
 	cookieUtils "ishtaloo.io/Utils/cookie"
 )
 
-func postGuess(c echo.Context) (err error) {
+func postGuess(c echo.Context, sseChannel *entities.SSEChannel) (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
@@ -38,5 +38,7 @@ func postGuess(c echo.Context) (err error) {
 	if err = roomsScripts.AddGuessToRoom(ctx, g.RoomId, r); err != nil {
 		return c.String(http.StatusInternalServerError, strings.Join([]string{err.Error(), "from AddGuessToRoom"}, ", "))
 	}
+
+	sseChannel.Notifier <- "new guess"
 	return c.NoContent(http.StatusOK)
 }
