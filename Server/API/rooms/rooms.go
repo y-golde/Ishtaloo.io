@@ -16,6 +16,6 @@ func RoomsController(e *echo.Echo, sseChannel *entities.SSEChannel) {
 
 	join.JoinController(e, sseChannel)
 	leave.LeaveController(e, sseChannel)
-	guess.GuessController(e)
+	guess.GuessController(e, sseChannel)
 	roomUsers.UsersController(e)
 }
