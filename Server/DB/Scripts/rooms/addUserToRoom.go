@@ -21,8 +21,12 @@ func AddUserToRoom(ctx context.Context, roomId string, user *entities.User) {
 	users := room.Users
 
 	if roomUtils.UserExistsInSlice(user, users) == -1 {
-		users = append([]entities.User{*user}, users...)
-
+		for i, u := range users {
+			if u.UserId == "" {
+				users[i] = *user
+				break
+			}
+		}
 		_, err := roomsCollection.UpdateOne(
 			ctx,
 			bson.M{"_id": id},
